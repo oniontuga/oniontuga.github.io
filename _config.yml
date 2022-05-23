@@ -20,7 +20,7 @@ timezone: Europe/Lisbon
 
 title: OnionTuga                         # the main title
 
-tagline: Cyber|Tech|Random stuf   # it will display as the sub-title
+tagline: Cyber|Tech|Random_stuf   # it will display as the sub-title
 
 description: >-                        # used by seo meta and the atom feed
  Cyber and foss enthusiast. Will serve to store some notes. Maybe it will help someone. Hack the world or some shit. Peace. 
