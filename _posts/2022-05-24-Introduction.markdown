@@ -1,13 +1,13 @@
 
 ---
 layout: post
-title: Proving Groudflknvçnds - Bratarina
-date: 2020-10-17 12:16:22 +0100
-description: Bratarina is an easy Linux box featuring an outdated installation of an SMTP server.
-img: os.jpeg
-fig-caption: Bratarina
-categories: ProvingGrounds
-tags: [Easy, Linux, Practice, CVE]
+title: Linux Introduction
+date: 2020-05-24 12:16:22 +0100
+description: Introduction to the best OS of the world
+img: linux.jpg 
+fig-caption: Linux
+categories: Linux
+tags: [Linux]
 ---
 
 # Introduction
