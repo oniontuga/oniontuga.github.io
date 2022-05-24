@@ -1,16 +1,16 @@
-title: Calxus Blog
-description: Calxus' personal blog to document the mischief of a DevSecOps Engineer 
+title: OnionTuga
+description: A blog for cyber, tech and random stuff
 permalink: ':title/'
 baseurl: ""
 url: "https://oniontuga.github.io"
 
 
-author: Calxus
-author-img: calxus.png # add your photo
-about-author: DevOps Engineer with a penchant for pentesting and proud owner of an over-engineered home network
-social-twitter: TheCalxus
-social-github: calxus
-social-email: calxus@protonmail.ch
+author: OnionTuga 
+author-img: onion.jpg # add your photo
+about-author: Cyber, and foss ENTHUSIASTIC. Trying to escape to big tech and hosting a site in github (lol). Hack the world or some shit.
+social-twitter: anon58983741
+social-github: oniontuga
+social-email: ubica17@pm.me
 
 # Build Settings
 markdown: kramdown
