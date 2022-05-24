@@ -1,13 +1,13 @@
 
 ---
 layout: post
-title: Linux - Introduction
-date: 2020-03-16 22:11:22 +0100
-description: Lame is a beginner level machine, requiring only one exploit to obtain root access. It was the first machine published on Hack The Box and was often the first machine for new users prior to its retirement.
-
-fig-caption: Lame
-categories: Linux
-tags: [Easy, Linux, Retired, CVE]
+title: Proving Groudflknvçnds - Bratarina
+date: 2020-10-17 12:16:22 +0100
+description: Bratarina is an easy Linux box featuring an outdated installation of an SMTP server.
+img: os.jpeg
+fig-caption: Bratarina
+categories: ProvingGrounds
+tags: [Easy, Linux, Practice, CVE]
 ---
 
 # Introduction
