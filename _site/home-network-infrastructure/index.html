@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<title>Home Network - Infrastructure - Calxus Blog</title>
+
+  <!-- Edit site and author settings in `_config.yml` to make the social details your own -->
+
+    <meta content="Calxus Blog" property="og:site_name">
+  
+    <meta content="Home Network - Infrastructure" property="og:title">
+  
+  
+    <meta content="article" property="og:type">
+  
+  
+    <meta content="This series of articles will take you through the process of design through to implementation of a Raspberry Pi private cloud home network setup. This article will focus on the infrastructure setup, before later moving on to the applications that will be deployed." property="og:description">
+  
+  
+    <meta content="http://localhost:4000/home-network-infrastructure/" property="og:url">
+  
+  
+    <meta content="2021-03-21T15:08:22+00:00" property="article:published_time">
+    <meta content="http://localhost:4000/about/" property="article:author">
+  
+  
+    <meta content="http://localhost:4000/assets/img/home-network-infra-background.jpg" property="og:image">
+  
+  
+    
+    <meta content="HomeNetwork" property="article:section">
+    
+  
+  
+    
+    <meta content="Infrastructure" property="article:tag">
+    
+    <meta content="Pi" property="article:tag">
+    
+  
+  
+
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:site" content="@">
+    <meta name="twitter:creator" content="@TheCalxus">
+  
+    <meta name="twitter:title" content="Home Network - Infrastructure">
+  
+  
+    <meta name="twitter:url" content="http://localhost:4000/home-network-infrastructure/">
+  
+  
+    <meta name="twitter:description" content="This series of articles will take you through the process of design through to implementation of a Raspberry Pi private cloud home network setup. This article will focus on the infrastructure setup, before later moving on to the applications that will be deployed.">
+  
+  
+    <meta name="twitter:image:src" content="http://localhost:4000/assets/img/home-network-infra-background.jpg">
+  
+
+	<meta name="description" content="This series of articles will take you through the process of design through to implementation of a Raspberry Pi private cloud home network setup. This article will focus on the infrastructure setup, before later moving on to the applications that will be deployed.">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+	<meta property="og:image" content="">
+	<link rel="shortcut icon" href="/assets/img/favicon/favicon.ico" type="image/x-icon">
+	<!-- Chrome, Firefox OS and Opera -->
+	<meta name="theme-color" content="#263959">
+	<!-- Windows Phone -->
+	<meta name="msapplication-navbutton-color" content="#263959">
+	<!-- iOS Safari -->
+	<meta name="apple-mobile-web-app-status-bar-style" content="#263959">
+	<!-- Google Fonts -->
+	<link href="https://fonts.googleapis.com/css?family=PT+Serif:400,700|Lato:300,400,700&display=swap" rel="stylesheet">
+	<!-- Font Awesome -->
+	<link rel="stylesheet" href="/assets/fonts/font-awesome/css/font-awesome.min.css">
+	<!-- Styles -->
+	<link rel="stylesheet" href="/assets/css/main.css">
+</head>
+
+<body>
+
+  <div class="wrapper">
+    <aside class="sidebar">
+  <header>
+    <div class="about">
+      <div class="cover-author-image">
+        <a href="/"><img src="/assets/img/calxus.png" alt="Calxus"></a>
+      </div>
+      <div class="author-name">Calxus</div>
+      <p>DevOps Engineer with a penchant for pentesting and proud owner of an over-engineered home network</p>
+      <div style="height: 5px"></div>
+      <div class="author-name"><a href="/hackthebox">hack the box</a></div>
+      <div class="site-category"><a href="/homenetwork">home network</a></div>
+    </div>
+  </header> <!-- End Header -->
+  <footer>
+    <section class="contact">
+      <h3 class="contact-title">Contact me</h3>
+      <ul>
+        <li><a href="https://twitter.com/TheCalxus" target="_blank"><i class="fa fa-twitter" aria-hidden="true"></i></a></li>
+        <li class="github"><a href="http://github.com/calxus" target="_blank"><i class="fa fa-github"></i></a></li>
+        <li class="email"><a href="mailto:calxus@protonmail.ch"><i class="fa fa-envelope-o"></i></a></li>
+        <li><a href="https://hackthebox.eu/profile/317303" target="_blank"><i class="fa fa-cube"></i></a></li>
+      </ul>
+    </section> <!-- End Section Contact -->
+    <div class="copyright">
+      <p>2021 &copy; Calxus</p>
+    </div>
+  </footer> <!-- End Footer -->
+</aside> <!-- End Sidebar -->
+<div class="content-box clearfix">
+  <article class="article-page">
+  <div class="page-content">
+    
+    <div class="page-cover-image">
+      <figure>
+        <img class="page-image" src=/assets/img/home-network-infra-background.jpg alt="Home Network - Infrastructure">
+        
+          <figcaption>Pi Infra</figcaption>
+        
+      </figure>
+    </div> <!-- End Page Cover Image -->
+    
+    <div class="wrap-content">
+      <header class="header-page">
+        <h1 class="page-title">Home Network - Infrastructure</h1>
+        <div class="page-date"><span>2021, Mar 21&nbsp;&nbsp;&nbsp;&nbsp;</span></div>
+      </header>
+      <h2 id="overview">Overview</h2>
+<p>This series of articles will take you through the process of design through to implementation of a Raspberry Pi private cloud home network setup. This first article will focus on the infrastructure side, before later moving on to the applications that will be deployed.</p>
+
+<p>The trigger for embarking on this project, was due to frequently racking up large bills through cloud providers, when wanting to either play with or deploy even the most simple of applications. There are obviously ways to reduce costs in the cloud but even then, none of them are quite as simple as flicking a power switch, at least not without the loss of data. There is also something satisfying about being able to see the fruits of your labour in the physical form and design your private cloud from the ground up.</p>
+
+<h2 id="design">Design</h2>
+<p>To start with some of the requirements I had for this setup, or with regards to noise my partner had, are that it is:</p>
+<ul>
+  <li>Easily extensible</li>
+  <li>Low cost</li>
+  <li>Fault tolerant</li>
+  <li>Secure</li>
+  <li>Discreet and quiet</li>
+</ul>
+
+<p>The network topology would be simple enough with each of the servers going through the switch in order to network together and reach the outside internet.</p>
+
+<p><img src="/assets/img/home-network-infra.png" alt="image" width="75%" /></p>
+
+<p>In order to keep costs low and ensure the setup is discreet and quiet, raspberry pi’s would seem like a good candidate. If I ever wanted to extend it in the future as well it would be simple enough just to purchase another one and plug it into the network.</p>
+
+<p>With that decided we now need to purchase the parts, I went for the following:</p>
+<ul>
+  <li><a href="https://thepihut.com/collections/raspberry-pi/products/raspberry-pi-4-model-b?variant=31994565689406">Raspberry Pi 4 Model B 8GB</a> x 4</li>
+  <li><a href="https://thepihut.com/products/8-slot-cloudlet-cluster-case?variant=37531942355139">8-Slot Cloudlet Cluster Case - Clear</a> x 1</li>
+  <li><a href="https://thepihut.com/products/noobs-preinstalled-sd-card?variant=20649315598398">Micro SD Card 32GB</a> x 4</li>
+  <li><a href="https://thepihut.com/products/raspberry-pi-psu-uk?variant=20064004505662">Raspberry Pi 4 Power Supply - White</a> x 4</li>
+  <li><a href="https://thepihut.com/products/rj45-cat5e-ethernet-lan-cable-2m-red">RJ45 Ethernet Cable 2m</a> x 5</li>
+  <li><a href="https://thepihut.com/products/tp-link-5-port-gigabit-network-switch">TP-Link 5-Port Gigabit Network Switch</a> x 1</li>
+  <li><a href="https://thepihut.com/products/integral-micro-sd-card-reader">Integral Micro SD Card Reader</a> x 1</li>
+</ul>
+
+<p>Unpacking and assembling was a little fiddly with the small parts though simple enough. If I had to do this again I may have gone for flat cables for the ethernet cables but it could be organised to be tidy nonetheless.</p>
+
+<p><img src="/assets/img/home-network-rack.jpeg" alt="image" width="50%" /></p>
+
+<p>To allow for easy extensibility and fault tolerance setting up a kubernetes cluster on the raspberry pi’s seems like a good idea. Allowing us not to have to worry about on which server services are deployed onto. The application stack for a kubernetes cluster is outlined below.</p>
+
+<p><img src="/assets/img/kubernetes-application-stack.png" alt="image" width="75%" /></p>
+
+<p>To set up the OS image on the SD card I used <a href="https://www.raspberrypi.org/software/">rpi-imager</a> and burned Raspbian OS Lite onto the card. Then the following changed need to be made:</p>
+<ul>
+  <li>Create empty file named <code class="language-plaintext highlighter-rouge">ssh</code> in boot partition</li>
+  <li>Set custom hostname in <code class="language-plaintext highlighter-rouge">/etc/hostname</code> in the rootfs partition</li>
+  <li>Append <code class="language-plaintext highlighter-rouge">cgroup_enable=cpuset cgroup_memory=1 cgroup_enable=memory</code> to <code class="language-plaintext highlighter-rouge">cmdline.txt</code> in the boot partition</li>
+  <li>Prepend <code class="language-plaintext highlighter-rouge">gpu_mem=16</code> to the start of <code class="language-plaintext highlighter-rouge">config.txt</code> in the boot partition</li>
+</ul>
+
+<p>In order to speed this process up I created a script that can be found <a href="https://gist.github.com/calxus/699a8e55616403590ad4c052f6f8d041">here</a></p>
+
+<p>Once this is done the kubernetes cluster can be deployed. To carry this out I used ansible playbooks that can be found <a href="https://github.com/calxus/ansible-home-network">here</a>. They need to be executed in the following order and manner replacing the user_name for whatever you want the user to be called:</p>
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">sudo ansible-playbook playbooks/0_base.yaml --extra-vars "user_name=calxus"</code></li>
+  <li><code class="language-plaintext highlighter-rouge">sudo ansible-playbook playbooks/1_master.yaml --extra-vars "user_name=calxus"</code></li>
+  <li><code class="language-plaintext highlighter-rouge">sudo ansible-playbook playbooks/2_node.yaml --extra-vars "user_name=calxus"</code></li>
+</ul>
+
+      <div class="page-footer">
+        <div class="page-share">
+          <a href="https://twitter.com/intent/tweet?text=Home Network - Infrastructure&url=http://localhost:4000/home-network-infrastructure/" title="Share on Twitter" rel="nofollow" target="_blank">Twitter</a>
+          <a href="https://facebook.com/sharer.php?u=http://localhost:4000/home-network-infrastructure/" title="Share on Facebook" rel="nofollow" target="_blank">Facebook</a>
+          <a href="https://plus.google.com/share?url=http://localhost:4000/home-network-infrastructure/" title="Share on Google+" rel="nofollow" target="_blank">Google+</a>
+        </div>
+        <div class="page-tag">
+          
+            <a href="/tags#Infrastructure" class="tag">&#35; Infrastructure</a>
+          
+            <a href="/tags#Pi" class="tag">&#35; Pi</a>
+          
+        </div>
+      </div>
+    </div> <!-- End Wrap Content -->
+  </div> <!-- End Page Content -->
+</article> <!-- End Article Page -->
+
+</div>
+
+  </div>
+  <script src="https://cdn.jsdelivr.net/npm/vanilla-lazyload@12.0.0/dist/lazyload.min.js"></script>
+<script src="/assets/js/main.js"></script>
+
+</body>
+</html>

