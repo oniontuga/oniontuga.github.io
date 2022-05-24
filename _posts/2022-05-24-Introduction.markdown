@@ -6,11 +6,11 @@ date: 2020-05-24 12:16:22 +0100
 description: Introduction to the best OS of the world
 img: linux.jpg 
 fig-caption: Linux
-categories: Linux
+categories: tryhackme 
 tags: [Linux]
 ---
 
-# Introduction
+## Introduction
 Linux is the kernel of one of the most popular operating system. Its development was started in 1991 by Linus Torvalds. The operating system was inspired by Unix, another operating system developed in the 1970s by AT&T Laboratories. Unix was geared towards small computers. At the time, “small” computers were considered machines that don’t need an entire hall with air conditioning and cost
 less than one million dollars. Later, they were considered as the machines that can be lifted by two people. By that time, Unix was not available on small computers like office computers based on the x86 platform. Therefore Linus, who was a student by that time, started to implement a Unix-like operating system which was supposed to run on this platform.
 
