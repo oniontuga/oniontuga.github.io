@@ -1,0 +1,7 @@
+# words per minute
+wpm: 200
+
+# minimum value
+min_time: 3
+
+prompt: min

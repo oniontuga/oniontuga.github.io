@@ -1,20 +1,9 @@
 ---
-layout: main
+layout: home
+
+# Index page
+# v2.0
+# https://github.com/cotes2020/jekyll-theme-chirpy
+# © 2017-2019 Cotes Chung
+# MIT License
 ---
-{% for post in site.posts %}
-<article class="post">
-  {% if post.img %}
-    {% if post.categories[0] == 'HomeNetwork' %}
-      <a class="post-thumbnail-homenetwork lazy" data-bg="url({{'/assets/img/'' | prepend: site.baseurl | append : post.img}})" href="{{post.url | prepend: site.baseurl}}"></a>
-    {% else %}
-      <a class="post-thumbnail lazy" data-bg="url({{'/assets/img/'' | prepend: site.baseurl | append : post.img}})" href="{{post.url | prepend: site.baseurl}}"></a>
-    {% endif %}
-  {% else %}
-  {% endif %}
-  <div class="post-content">
-    <h2 class="post-title"><a href="{{post.url | prepend: site.baseurl}}">{{post.title}}</a></h2>
-    <p>{{ post.description | strip_html | truncatewords: 15 }}</p>
-    <span class="post-date">{{post.date | date: '%Y, %b %d'}}</span>
-  </div>
-</article>
-{% endfor %}

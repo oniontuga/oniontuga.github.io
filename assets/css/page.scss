@@ -1,0 +1,24 @@
+---
+# The default style for layout Page
+# v2.2
+# https://github.com/cotes2020/jekyll-theme-chirpy
+# © 2020 Cotes Chung
+# MIT License
+---
+
+{% include_relative _addon/main.scss %}
+{% include_relative _addon/syntax.scss %}
+
+h1 {
+    /* color: rgb(138, 180, 248); */
+   color: #8ab4f8;
+   /* color: #de6b18; */
+   border-bottom-color: #8ab4f8; /* #de6b18; */
+   border-bottom-style: solid;
+   border-bottom-width: 1px;
+ }
+
+ h2 {
+    /* color: rgb(138, 180, 248); */
+   color: #de6b18;
+ }
